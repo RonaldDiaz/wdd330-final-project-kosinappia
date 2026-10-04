@@ -1,7 +1,7 @@
-import { loadHeaderFooter, renderWithTemplate } from './ui.mjs'
-import { searchIngredients, getIngredientDetails } from './usdaApi.mjs';
-import { COMMON_INGREDIENTS } from './data/data.mjs';
-import { parseFoodData } from './adapters.mjs';
+import { loadHeaderFooter, renderWithTemplate } from "./ui.mjs";
+import { searchIngredients, getIngredientDetails } from "./usdaApi.mjs";
+import { COMMON_INGREDIENTS } from "./data/data.mjs";
+import { parseFoodData } from "./adapters.mjs";
 
 loadHeaderFooter();
 
@@ -11,10 +11,16 @@ const ingredientSelect = document.querySelector("#ingredient-select");
 const fromUnitsSelect = document.querySelector("#from-unit-select");
 const toUnitsSelect = document.querySelector("#to-unit-select");
 
-const activeIngredientElement = document.querySelector('#active-ingredient-name');
-const activeIngredientDescriptionElement = document.querySelector("#active-ingredient-description");
+const activeIngredientElement = document.querySelector(
+  "#active-ingredient-name"
+);
+const activeIngredientDescriptionElement = document.querySelector(
+  "#active-ingredient-description"
+);
 const exactResultElement = document.querySelector("#result-exact-number");
-const practicalResultElement = document.querySelector("#practical-measure-value");
+const practicalResultElement = document.querySelector(
+  "#practical-measure-value"
+);
 const calculationElement = document.querySelector("#calculation-formula");
 
 let currentIngredient;
@@ -23,14 +29,14 @@ let currentToUnit = "grams";
 
 searchButton.addEventListener("click", () => {
   getIngredientDetails(searchBox.value);
-})
+});
 
-COMMON_INGREDIENTS.forEach(ingredient => {
+COMMON_INGREDIENTS.forEach((ingredient) => {
   const option = document.createElement("option");
   option.value = ingredient.fdcId;
   option.textContent = ingredient.name;
   ingredientSelect.appendChild(option);
-})
+});
 
 ingredientSelect.addEventListener("change", async () => {
   const selectedFdcId = ingredientSelect.value;
@@ -39,7 +45,10 @@ ingredientSelect.addEventListener("change", async () => {
   currentIngredient = parseFoodData(ingredientData);
   console.log(parseFoodData(ingredientData));
   activeIngredientElement.textContent = currentIngredient.name;
-  renderWithTemplate(ingredientDescriptionTemplate(), activeIngredientDescriptionElement);
+  renderWithTemplate(
+    ingredientDescriptionTemplate(),
+    activeIngredientDescriptionElement
+  );
 });
 
 populateOptions(fromUnitsSelect, currentFromUnit);
@@ -62,7 +71,7 @@ function populateOptions(selectItem, defaultValue) {
     <option value="kg">Kilograms</option>
   </optgroup>
 `;
-  selectItem.value = defaultValue
+  selectItem.value = defaultValue;
 }
 
 function renderPage() {
@@ -70,7 +79,7 @@ function renderPage() {
 }
 
 function renderConversion() {
-  exactResultElement.innerHTML()
+  exactResultElement.innerHTML();
 }
 
 function ingredientDescriptionTemplate() {
@@ -84,6 +93,3 @@ function ingredientDescriptionTemplate() {
     <span>FDC ID: ${currentIngredient.fdcId}</span>
   `;
 }
-
-
-

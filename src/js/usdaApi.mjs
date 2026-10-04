@@ -26,9 +26,15 @@ export async function searchIngredients(query) {
 
 // Get ingredient data by ID
 export async function getIngredientDetails(fdcId) {
-  const endpoint = `${BASE_URL}/food/${fdcId}?api_key=${API_KEY}`;
+  if (!API_KEY) {
+    console.error("Error crítico: VITE_USDA_API_KEY no está definida.");
+    throw new Error("API Key is missing. Check your Render Environment configurations.");
+  }
 
   if (!fdcId) throw new Error("A valid FDC ID is required.");
+  
+  const endpoint = `${BASE_URL}/food/${fdcId}?api_key=${API_KEY}`;
+
   try {
     const response = await fetch(endpoint);
     if (!response.ok) {
@@ -36,8 +42,6 @@ export async function getIngredientDetails(fdcId) {
     }
 
     const foodData = await response.json();
-    //console.log(foodData);
-    //console.log(parseFoodData(foodData));
     return foodData;
   } catch (error) {
     console.error("Failed to fetch details: ", error);

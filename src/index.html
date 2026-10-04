@@ -4,18 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kosinappia | Kitchen Units Converter</title>
-    <meta name="author" content="Ronald Diaz Zerpa">
-    <meta name="description" content="Convert between volumetric measures, like cups or spoons, and mass units like grams or ounces. Discover the nutritional values of your ingredients.">
+    <meta name="author" content="Ronald Diaz Zerpa" />
+    <meta
+      name="description"
+      content="Convert between volumetric measures, like cups or spoons, and mass units like grams or ounces. Discover the nutritional values of your ingredients."
+    />
     <script type="module" src="/js/main.js"></script>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="icon" href="/images/kosinappia-icon.svg"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="icon" href="/images/kosinappia-icon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-    <meta property="og:title" content="Kosinappia | Kitchen Units Converter">
-    <meta property="og:description"
-      content="Convert between volumetric measures, like cups or spoons, and mass units like grams or ounces. Discover the nutritional values of your ingredients.">
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
+      rel="stylesheet"
+    />
+    <meta property="og:title" content="Kosinappia | Kitchen Units Converter" />
+    <meta
+      property="og:description"
+      content="Convert between volumetric measures, like cups or spoons, and mass units like grams or ounces. Discover the nutritional values of your ingredients."
+    />
     <!-- <meta property="og:url" content=""> 
     <meta property="og:image" content=""> -->
   </head>
@@ -25,17 +32,29 @@
     <main class="main-content" id="main-content">
       <section class="hero-section" aria-labelledby="hero-title">
         <p class="hero-subtitle">USDA Verified Data</p>
-        <h1 class="hero-title" id="hero-title">Precision Kitchen Units Converter</h1>
+        <h1 class="hero-title" id="hero-title">
+          Precision Kitchen Units Converter
+        </h1>
         <p class="hero-description">
-          Convert between volumetric cups, spoons, and weight units like grams or ounces. Designed for baking measures and ingredient density.
+          Convert between volumetric cups, spoons, and weight units like grams
+          or ounces. Designed for baking measures and ingredient density.
         </p>
 
         <div class="search-container">
           <div class="search-input-wrapper">
-            <input type="text" id="ingredient-search-input" class="search-input"
+            <input
+              type="text"
+              id="ingredient-search-input"
+              class="search-input"
               placeholder="Search ingredient (e.g. Flour, Brown Sugar, Butter, Honey)..."
-              aria-label="Search food ingredient database" autocomplete="off" />
-            <button type="button" id="search-btn" aria-label="Clear search input">
+              aria-label="Search food ingredient database"
+              autocomplete="off"
+            />
+            <button
+              type="button"
+              id="search-btn"
+              aria-label="Clear search input"
+            >
               O
             </button>
             <!-- <button type="button" id="search-clear-btn" class="search-clear-btn">
@@ -43,14 +62,34 @@
             </button> -->
           </div>
 
-          <div class="quick-tags" role="toolbar" aria-label="Filter ingredients by category">
+          <div
+            class="quick-tags"
+            role="toolbar"
+            aria-label="Filter ingredients by category"
+          >
             <span class="quick-tag-label">Category:</span>
-            <button type="button" class="quick-tag-btn active" data-category="all">All</button>
-            <button type="button" class="quick-tag-btn" data-category="flour">Flours &amp; Grains</button>
-            <button type="button" class="quick-tag-btn" data-category="sugar">Sugars</button>
-            <button type="button" class="quick-tag-btn" data-category="dairy">Dairy</button>
-            <button type="button" class="quick-tag-btn" data-category="fats">Fats &amp; Oils</button>
-            <button type="button" class="quick-tag-btn" data-category="liquid">Liquids</button>
+            <button
+              type="button"
+              class="quick-tag-btn active"
+              data-category="all"
+            >
+              All
+            </button>
+            <button type="button" class="quick-tag-btn" data-category="flour">
+              Flours &amp; Grains
+            </button>
+            <button type="button" class="quick-tag-btn" data-category="sugar">
+              Sugars
+            </button>
+            <button type="button" class="quick-tag-btn" data-category="dairy">
+              Dairy
+            </button>
+            <button type="button" class="quick-tag-btn" data-category="fats">
+              Fats &amp; Oils
+            </button>
+            <button type="button" class="quick-tag-btn" data-category="liquid">
+              Liquids
+            </button>
           </div>
         </div>
       </section>
@@ -60,50 +99,136 @@
           <header class="converter-card-header">
             <div class="selected-ingredient-display">
               <span class="form-label">Active Food Ingredient</span>
-              <h2 class="active-ingredient-name" id="active-ingredient-name">All-Purpose Flour (Unbleached)</h2>
-              <div class="active-ingredient-description" id="active-ingredient-description">
-              </div>
+              <h2 class="active-ingredient-name" id="active-ingredient-name">
+                All-Purpose Flour (Unbleached)
+              </h2>
+              <div
+                class="active-ingredient-description"
+                id="active-ingredient-description"
+              ></div>
             </div>
           </header>
 
           <form id="converter-form">
             <div class="form-group">
-              <label for="ingredient-select" class="form-label">Select Ingredient</label>
-              <select id="ingredient-select" class="select-field" aria-label="Select Food Ingredient">
-              </select>
+              <label for="ingredient-select" class="form-label"
+                >Select Ingredient</label
+              >
+              <select
+                id="ingredient-select"
+                class="select-field"
+                aria-label="Select Food Ingredient"
+              ></select>
             </div>
 
             <div class="form-group">
-              <label for="amount-input" class="form-label">Ingredient Amount</label>
+              <label for="amount-input" class="form-label"
+                >Ingredient Amount</label
+              >
               <div class="ingredient-amount">
-                <input type="number" id="amount-input" class="input-field" value="1" min="0.01" step="any" required
-                  aria-label="Amount to convert" />
+                <input
+                  type="number"
+                  id="amount-input"
+                  class="input-field"
+                  value="1"
+                  min="0.01"
+                  step="any"
+                  required
+                  aria-label="Amount to convert"
+                />
               </div>
               <div class="preset-pills" aria-label="Quick amount presets">
                 <span class="preset-title">Presets:</span>
-                <button type="button" class="preset-btn" data-amount="0.25" data-unit="cups">1/4 cup</button>
-                <button type="button" class="preset-btn" data-amount="0.5" data-unit="cups">1/2 cup</button>
-                <button type="button" class="preset-btn" data-amount="0.75" data-unit="cups">3/4 cup</button>
-                <button type="button" class="preset-btn" data-amount="1" data-unit="cups">1 cup</button>
-                <button type="button" class="preset-btn" data-amount="2" data-unit="tbsp">2 tbsp</button>
-                <button type="button" class="preset-btn" data-amount="100" data-unit="grams">100g</button>
-                <button type="button" class="preset-btn" data-amount="250" data-unit="grams">250g</button>
+                <button
+                  type="button"
+                  class="preset-btn"
+                  data-amount="0.25"
+                  data-unit="cups"
+                >
+                  1/4 cup
+                </button>
+                <button
+                  type="button"
+                  class="preset-btn"
+                  data-amount="0.5"
+                  data-unit="cups"
+                >
+                  1/2 cup
+                </button>
+                <button
+                  type="button"
+                  class="preset-btn"
+                  data-amount="0.75"
+                  data-unit="cups"
+                >
+                  3/4 cup
+                </button>
+                <button
+                  type="button"
+                  class="preset-btn"
+                  data-amount="1"
+                  data-unit="cups"
+                >
+                  1 cup
+                </button>
+                <button
+                  type="button"
+                  class="preset-btn"
+                  data-amount="2"
+                  data-unit="tbsp"
+                >
+                  2 tbsp
+                </button>
+                <button
+                  type="button"
+                  class="preset-btn"
+                  data-amount="100"
+                  data-unit="grams"
+                >
+                  100g
+                </button>
+                <button
+                  type="button"
+                  class="preset-btn"
+                  data-amount="250"
+                  data-unit="grams"
+                >
+                  250g
+                </button>
               </div>
             </div>
             <div class="form-row form-row-units">
               <div class="form-group">
-                <label for="from-unit-select" class="form-label">From Unit</label>
-                <select id="from-unit-select" class="select-field" aria-label="Source unit">
-                </select>
+                <label for="from-unit-select" class="form-label"
+                  >From Unit</label
+                >
+                <select
+                  id="from-unit-select"
+                  class="select-field"
+                  aria-label="Source unit"
+                ></select>
               </div>
-              <button type="button" id="swap-units-btn" class="btn-swap-units" title="Swap From and To Units"
-                aria-label="Swap units">
-                <img src="public/images/swap.svg" alt="swap icon" width="18" height="18">
+              <button
+                type="button"
+                id="swap-units-btn"
+                class="btn-swap-units"
+                title="Swap From and To Units"
+                aria-label="Swap units"
+              >
+                <img
+                  src="public/images/swap.svg"
+                  alt="swap icon"
+                  width="18"
+                  height="18"
+                />
               </button>
               <div class="form-group">
                 <label for="to-unit-select" class="form-label">To Unit</label>
-                <select id="to-unit-select" class="select-field" aria-label="Target unit">
-                </select>
+                <select
+                  id="to-unit-select"
+                  class="select-field"
+                  aria-label="Target unit"
+                ></select>
               </div>
             </div>
           </form>
@@ -120,7 +245,9 @@
             <div class="practical-measure-label">
               <span>Practical Kitchen Measure</span>
             </div>
-            <div class="practical-measure-value" id="practical-measure-value">1 cup</div>
+            <div class="practical-measure-value" id="practical-measure-value">
+              1 cup
+            </div>
             <div class="practical-measure-note" id="practical-measure-note">
               Kitchen measures breakdown for All-Purpose Flour (~120g / cup)
             </div>
@@ -132,15 +259,29 @@
             </div>
           </div>
           <div class="converter-actions">
-            <button type="button" id="save-cookbook-btn" class="btn btn-primary btn-save-cookbook">
-              Save to Cookbook</button>
-            <button type="button" id="copy-result-btn" class="btn btn-secondary" aria-label="Copy conversion values">Copy</button>
+            <button
+              type="button"
+              id="save-cookbook-btn"
+              class="btn btn-primary btn-save-cookbook"
+            >
+              Save to Cookbook
+            </button>
+            <button
+              type="button"
+              id="copy-result-btn"
+              class="btn btn-secondary"
+              aria-label="Copy conversion values"
+            >
+              Copy
+            </button>
           </div>
         </div>
       </section>
       <section class="nutrition-section" aria-labelledby="nutrition-title">
         <div class="section-header">
-          <h2 class="section-title" id="nutrition-title">Calculated Nutritional Breakdown</h2>
+          <h2 class="section-title" id="nutrition-title">
+            Calculated Nutritional Breakdown
+          </h2>
         </div>
         <div class="nutrition-grid">
           <article class="nutrition-card calories">
@@ -157,7 +298,9 @@
               <span class="nutrition-value" id="nutrition-carbs">91.6</span>
               <span class="nutrition-unit">g</span>
             </div>
-            <div class="nutrition-subtext">Includes dietary fibers &amp; starches</div>
+            <div class="nutrition-subtext">
+              Includes dietary fibers &amp; starches
+            </div>
           </article>
           <article class="nutrition-card protein">
             <div class="nutrition-label">Protein</div>
@@ -177,14 +320,19 @@
           </article>
         </div>
       </section>
-      <section class="section-spacing" id="recipes-section" aria-labelledby="recipes-title">
+      <section
+        class="section-spacing"
+        id="recipes-section"
+        aria-labelledby="recipes-title"
+      >
         <div class="section-header">
-          <h2 class="section-title" id="recipes-title">Baking Recipes &amp; Calibrated Formulations</h2>
+          <h2 class="section-title" id="recipes-title">
+            Baking Recipes &amp; Calibrated Formulations
+          </h2>
         </div>
-        <div class="recipes-grid" id="recipes-grid">
-        </div>
+        <div class="recipes-grid" id="recipes-grid"></div>
       </section>
     </main>
-    <footer id="footer" class="site-footer"></footer>    
+    <footer id="footer" class="site-footer"></footer>
   </body>
 </html>
