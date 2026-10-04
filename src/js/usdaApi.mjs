@@ -27,7 +27,6 @@ export async function searchIngredients(query) {
 // Get ingredient data by ID
 export async function getIngredientDetails(fdcId) {
   if (!API_KEY) {
-    console.error("Error crítico: VITE_USDA_API_KEY no está definida.");
     throw new Error("API Key is missing. Check your Render Environment configurations.");
   }
 
