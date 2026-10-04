@@ -1,0 +1,30 @@
+{
+  "name": "kosinappia",
+  "version": "0.0.0",
+  "description": "WDD 330 Final project",
+  "main": "main.js",
+  "scripts": {
+    "build": "vite build --emptyOutDir",
+    "lint": "eslint *.js src/**/*.js",
+    "format": "prettier --ignore-path ./.gitignore --write \"./**/*.{html,json,js,ts,css}\"",
+    "test": "jest",
+    "start": "vite",
+    "preview": "vite preview"
+  },
+  "author": "Ronald Diaz",
+  "devDependencies": {
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "prettier": "^3.9.9",
+    "vite": "^6.3.5"
+  },
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 chrome versions",
+    "last 3 opera versions",
+    "last 3 ios_saf versions",
+    "last 3 safari versions"
+  ]
+}
+

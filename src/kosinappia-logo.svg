@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 202.64 33.12">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        font-family: AndrogyneMedium, Androgyne;
+        font-size: 32px;
+      }
+
+      .cls-3 {
+        letter-spacing: -.01em;
+      }
+    </style>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <text class="cls-2" transform="translate(38.71 25.09)"><tspan class="cls-3" x="0" y="0">K</tspan><tspan x="20.77" y="0">osinappia</tspan></text>
+    <path class="cls-1" d="M28.63,4.43h-3.37V0H0l5.05,4.43v20.66h20.21v-9.59h3.37c.93,0,1.68-.66,1.68-1.48V5.91c0-.81-.76-1.48-1.68-1.48h0ZM21.89,22.14h-4.21v-3.69h1.68v-1.48h-1.68v-3.69h1.68v-1.48h-1.68v-3.69h1.68v-1.48h-1.68v-3.69h4.21v19.18h0ZM28.63,14.03h-3.37V5.91h3.37v8.12h0Z"/>
+  </g>
+</svg>
