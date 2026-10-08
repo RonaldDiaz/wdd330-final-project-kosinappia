@@ -1,3 +1,5 @@
+import { UNITS } from "./unitConversion.mjs";
+
 // Returns a summary of search results from USDA API
 export function searchResultsSummary(data) {
     return data.foods.map(food => ({
@@ -39,22 +41,54 @@ function findNutrientValue(nutrientsList, names) {
 
 // Finds the weight value of a portion in the food data, and calculates the density
 function findWeightAndDensity(foodData) {
-  let weight = 240; // Default weight value in grs
+  let weight = 236.588; // Default weight value in grs
   let density = 1; // Default density value in gr/mL
 
   const portions = foodData.foodPortions || [];
-  const cupPortion = portions.find(portion => portion.modifier.includes("cup"));
 
-  if (cupPortion.gramWeight) {
-      weight = cupPortion.gramWeight;
-      density = weight / 236.588; // 1 cup = 236.588 mL
-    } else {
-      const tbspPortion = portions.find(portion => portion.modifier.includes("tbsp"));
-      if (tbspPortion.gramWeight) {
-        weight = tbspPortion.gramWeight;
-        density = weight / 14.787; // 1 tbsp = 14.787 mL
-      }
+  const priorityUnits = ["cups", "tbsp", "tsp", "fl_oz", "oz"];
+
+  for (const unitId of priorityUnits) {
+    const unit = UNITS[unitId];
+    const foundPortion = portions.find(portion => portion.modifier.includes(unit.shortName))
+    if (foundPortion?.gramWeight) {
+      weight = foundPortion.gramWeight;
+      density = weight / unit.toBase;
+      return { weight, density };
     }
+  }
 
   return { weight, density };
+}
+
+export function parseRecipes(recipeData, quantity) {
+  const shuffled = recipeData.meals.sort(() => 0.5 - Math.random());
+  const selected = shuffled.slice(0, quantity);
+  return selected.map(meal => ({id: meal.idMeal, title: meal.strMeal, image: meal.strMealThumb}));
+}
+
+export function parseRecipeDetails(recipeData) {
+  if (!recipeData.meals) {
+    return null;
+  }
+  const rawMeal = recipeData.meals[0];
+  const ingredients = [];
+  for (let i = 1; i <= 20; i++) {
+    const ingredient = rawMeal[`strIngredient${i}`];
+    const measure = rawMeal[`strMeasure${i}`];
+
+    if (ingredient && measure) {
+      ingredients.push({ingredient: ingredient.trim(), measure: measure.trim()});
+    }
+  }
+
+  return {
+    id: rawMeal.idMeal,
+    title: rawMeal.strMeal,
+    category: rawMeal.strCategory || "General",
+    country: rawMeal.strCountry || rawMeal.strArea || "International",
+    instructions: rawMeal.strInstructions || "No instructions available.",
+    image: rawMeal.strMealThumb,
+    ingredients: ingredients
+  };
 }
