@@ -290,7 +290,7 @@ a {
 }
 
 .btn-secondary:hover {
-  background-color: var(--light-color);
+  background-color: var(--primary-color-light);
   border-color: var(--color-border-dark);
 }
 
@@ -893,6 +893,39 @@ a {
   width: 100%;
 }
 
+.recipe-empty-state {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 1.5rem;
+  background-color: var(--light-color);
+  border: 1px dashed var(--color-border-dark);
+  border-radius: var(--radius-large);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title {
+  font-size: 1.25rem;
+  color: var(--dark-color);
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.empty-state-message {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
 dialog.recipe-modal {
   margin: auto;
   border: none;
@@ -1016,6 +1049,57 @@ dialog.recipe-modal::backdrop {
   border-top: 1px solid var(--color-border);
   display: flex;
   justify-content: flex-end;
+}
+
+#notificationContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+}
+
+.notification-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: var(--primary-color);
+  color: var(--dark-grey);
+  padding: 8px;
+  border-radius: 8px;
+  border-left: 5px solid var(--secondary-color);
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease;
+}
+
+.notification-item.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.notification-item button {
+  padding: 8px;
+  background: none;
+  border: none;
+  color: inherit;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.8;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.notification-item button:hover {
+  opacity: 1;
+  transform: scale(1.15);
 }
 
 /* ===== Footer ===== */

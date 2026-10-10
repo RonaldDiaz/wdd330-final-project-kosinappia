@@ -23,6 +23,7 @@ export async function loadHeaderFooter() {
   const footer = await loadTemplate("/partials/footer.html");
   renderWithTemplate(header, document.querySelector("#header"), null, setNavigation);
   renderWithTemplate(footer, document.querySelector("#footer"));
+  setDates();
 }
 
 function setNavigation() {
@@ -50,6 +51,13 @@ function navWayfinding() {
       li.classList.add("current");
     }
   });
+}
+
+export function setDates() {
+    const year = document.getElementById("currentYear");
+    const currentYear = new Date().getFullYear();
+    year.innerHTML = currentYear;
+    document.getElementById("lastModified").innerHTML = document.lastModified;
 }
 
 export function openRecipeModal(recipeDetails) {

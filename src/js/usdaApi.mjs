@@ -27,23 +27,18 @@ const BASE_URL = "https://api.nal.usda.gov/fdc/v1";
 // Get ingredient data by ID
 export async function getIngredientDetails(fdcId) {
   if (!API_KEY) {
-    throw new Error("API Key is missing. Check your Render Environment configurations.");
+    throw new Error("API Key is missing");
   }
 
-  if (!fdcId) throw new Error("A valid FDC ID is required.");
+  if (!fdcId) throw new Error("A valid FDC ID is required");
   
   const endpoint = `${BASE_URL}/food/${fdcId}?api_key=${API_KEY}`;
 
-  try {
-    const response = await fetch(endpoint);
-    if (!response.ok) {
-      throw new Error(`Error obtaining the details: ${response.status}`);
-    }
-
-    const foodData = await response.json();
-    return foodData;
-  } catch (error) {
-    console.error("Failed to fetch details: ", error);
-    throw error;
+  const response = await fetch(endpoint);
+  if (!response.ok) {
+    throw new Error(`Error obtaining the details: ${response.status}`);
   }
+
+  const foodData = await response.json();
+  return foodData;  
 }

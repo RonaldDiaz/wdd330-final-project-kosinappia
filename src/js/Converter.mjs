@@ -4,6 +4,7 @@ import { getRecipesByIngredient, getRecipeDetailsById } from "./theMealDbApi.mjs
 import { parseFoodData, parseRecipes, parseRecipeDetails } from "./adapters.mjs";
 import { renderWithTemplate, renderListWithTemplate, openRecipeModal } from "./ui.mjs";
 import { convertAmount } from "./unitConversion.mjs";
+import { notificationManager } from "./NotificationManager";
 
 export default class Converter {
   constructor(elements) {
@@ -56,15 +57,20 @@ export default class Converter {
 
 	bindListeners() {
 		// Ingredient selection change
-		this.ingredientSelect.addEventListener("change", async () => {
+    this.ingredientSelect.addEventListener("change", async () => {
       const selectedFdcId = this.ingredientSelect.value;
       this.activeIngredientName.textContent = "Loading...";
       this.ingredientDescription.textContent = "Waiting for data."
-      const ingredientData = await getIngredientDetails(selectedFdcId);
-      this.currentIngredient = parseFoodData(ingredientData);
+      try {
+        const ingredientData = await getIngredientDetails(selectedFdcId);
+        this.currentIngredient = parseFoodData(ingredientData);
+      } catch (err) {
+        notificationManager.show(`There was a problem loading ingredients: ${err.message}`, "error");
+      }      
       this.currentIngredient.commonName = this.ingredientSelect.options[this.ingredientSelect.selectedIndex].text;
       this.renderIngredient();
       this.renderResults();
+      this.renderRecipes();
     });
 
 		// Amount change
@@ -159,8 +165,9 @@ export default class Converter {
   async renderRecipes() {
     this.recipesGrid.textContent = "Loading recipes...";
     const recipeData = await getRecipesByIngredient(this.currentIngredient.commonName);
-    if (!recipeData.meals) {
-      this.recipesGrid.textContent = "No hay nada";
+    if (!recipeData.meals || recipeData.meals.length === 0) {
+      const emptyState = emptyRecipeTemplate(this.currentIngredient.commonName);
+      renderWithTemplate(emptyState, this.recipesGrid);
       return;
     }
     const randomRecipes = parseRecipes(recipeData, 6);
@@ -175,17 +182,13 @@ export default class Converter {
         </div>
         <div class="recipe-content">
           <h3 class="recipe-title">${recipe.title}</h3>
-          <button type="button" class="btn btn-secondary recipe-btn" data-id="${recipe.id}">
-            View Recipe & Ratios
-          </button>
+          <button type="button" class="btn btn-secondary recipe-btn" data-id="${recipe.id}">View Recipe</button>
         </div>
       `;
       const viewBtn = card.querySelector(".recipe-btn");
       viewBtn.addEventListener("click", async (event) => {
         const recipeDetails = await getRecipeDetailsById(event.target.dataset.id);
-        console.log(recipeDetails);
         const parsedRecipeDetails = parseRecipeDetails(recipeDetails);
-        console.log(parsedRecipeDetails);
         openRecipeModal(parsedRecipeDetails);
       });
       this.recipesGrid.appendChild(card);
@@ -236,3 +239,15 @@ const unitsTemplate = `
     <option value="kg">Kilograms</option>
   </optgroup>
 `;
+
+function emptyRecipeTemplate(ingredientName) {
+  return `
+    <div class="recipe-empty-state">
+      <div class="empty-state-icon">🍽️</div>
+      <h3 class="empty-state-title">No recipes found 😔</h3>
+      <p class="empty-state-message">
+        We couldn't find any suggested recipes with your selected ingredient, <strong>"${ingredientName}"</strong> right now. Try selecting another ingredient!
+      </p>
+    </div>
+  `;
+}

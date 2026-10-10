@@ -11,7 +11,7 @@ export const INGREDIENTS = [
 
 export const COMMON_INGREDIENTS = [
   { name: "Granulated sugar", category: "Sweets", fdcId: 169655},
-  { name: "All-purpose flour", category: "Baked Products", fdcId: 168936},
+  { name: "All purpose flour", category: "Baked Products", fdcId: 168936},
   { name: "Whole milk", category: "Dairy and Egg Products", fdcId: 171265},
   { name: "Unsalted butter", category: "Dairy and Egg Products", fdcId: 173430},
   { name: "Salted butter", category: "Dairy and Egg Products", fdcId: 173410},
