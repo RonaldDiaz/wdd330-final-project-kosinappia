@@ -62,6 +62,12 @@ export default class Converter {
 		// Ingredient selection change
     this.ingredientSelect.addEventListener("change", async () => {
       const selectedFdcId = this.ingredientSelect.value;
+      if (!selectedFdcId) {
+        this.activeIngredientName.textContent = "No ingredient found";
+        this.ingredientDescription.textContent =
+          "Try another search term or select a different category.";
+        return;
+      }
       this.activeIngredientName.innerHTML = loadingTemplate;
       this.ingredientDescription.textContent = "Waiting for data."
       try {
