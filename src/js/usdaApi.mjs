@@ -1,4 +1,3 @@
-/* eslint-disable no-useless-escape */
 const API_KEY = import.meta.env.VITE_USDA_API_KEY;
 const BASE_URL = "https://api.nal.usda.gov/fdc/v1";
 
@@ -34,11 +33,21 @@ export async function getIngredientDetails(fdcId) {
   
   const endpoint = `${BASE_URL}/food/${fdcId}?api_key=${API_KEY}`;
 
-  const response = await fetch(endpoint);
-  if (!response.ok) {
-    throw new Error(`Error obtaining the details: ${response.status}`);
-  }
-
-  const foodData = await response.json();
-  return foodData;  
+  try {
+    const response = await fetch(endpoint);
+    
+    if (!response.ok) {
+      throw new Error(`Error obtaining the details: ${response.status}`);
+    }
+    const foodData = await response.json();
+    return foodData;  
+  } catch (error) {
+    if (!navigator.onLine) {
+      throw new Error("No internet connection.");
+    }
+    if (error.message === "Failed to fetch") {
+      throw new Error("There was a problem reaching USDA server.");
+    }
+    throw error;
+  }  
 }

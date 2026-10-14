@@ -1,14 +1,14 @@
 export const UNITS = {
-  cups: { id: "cups", name: "Cups (US Standard)", shortName: "cup", type: "volume", toBase: 236.5882365 },
-  tbsp: { id: "tbsp", name: "Tablespoons (tbsp)", shortName: "tbsp", type: "volume", toBase: 14.7867648 },
-  tsp: { id: "tsp", name: "Teaspoons (tsp)", shortName: "tsp", type: "volume", toBase: 4.9289216 },
-  ml: { id: "ml", name: "Milliliters (ml)", shortName: "ml", type: "volume", toBase: 1.0 },
-  fl_oz: { id: "fl_oz", name: "Fluid Ounces (fl oz)", shortName: "fl oz", type: "volume", toBase: 29.5735296 },
-  liter: { id: "liter", name: "Liters (L)", shortName: "L", type: "volume", toBase: 1000.0 },
-  grams: { id: "grams", name: "Grams (g)", shortName: "g", type: "weight", toBase: 1.0 },
-  oz: { id: "oz", name: "Ounces (oz)", shortName: "oz", type: "weight", toBase: 28.349523125 },
-  lb: { id: "lb", name: "Pounds (lb)", shortName: "lb", type: "weight", toBase: 453.59237 },
-  kg: { id: "kg", name: "Kilograms (kg)", shortName: "kg", type: "weight", toBase: 1000.0 }
+  cups: { id: "cups", name: "Cups", shortName: "cup", type: "volume", toBase: 236.5882365 },
+  tbsp: { id: "tbsp", name: "Tablespoons ", shortName: "tbsp", type: "volume", toBase: 14.7867648 },
+  tsp: { id: "tsp", name: "Teaspoons", shortName: "tsp", type: "volume", toBase: 4.9289216 },
+  ml: { id: "ml", name: "Milliliters", shortName: "ml", type: "volume", toBase: 1.0 },
+  fl_oz: { id: "fl_oz", name: "Fluid Ounces ", shortName: "fl oz", type: "volume", toBase: 29.5735296 },
+  liter: { id: "liter", name: "Liters", shortName: "L", type: "volume", toBase: 1000.0 },
+  grams: { id: "grams", name: "Grams", shortName: "g", type: "weight", toBase: 1.0 },
+  oz: { id: "oz", name: "Ounces", shortName: "oz", type: "weight", toBase: 28.349523125 },
+  lb: { id: "lb", name: "Pounds", shortName: "lb", type: "weight", toBase: 453.59237 },
+  kg: { id: "kg", name: "Kilograms", shortName: "kg", type: "weight", toBase: 1000.0 }
 }
 
 export function convertAmount(amount, fromUnitName, toUnitName, ingredient) {
@@ -49,12 +49,12 @@ export function convertAmount(amount, fromUnitName, toUnitName, ingredient) {
 
   const { measure, measureNote } = practicalMeasure(milliliters, grams, ingredient);
 
-  return { result: exactValue.toFixed(2), unit: toUnit.shortName, measure: measure, note: measureNote, formula: formulaDescription, calories: calories, carbs: carbs, protein: protein, fat: fat };
+  return { result: exactValue.toFixed(2), unit: toUnit.shortName, grams: grams, measure: measure, note: measureNote, formula: formulaDescription, calories: calories, carbs: carbs, protein: protein, fat: fat };
 }
 
 export function practicalMeasure(totalMl, totalGrams, ingredient) {
   if (totalMl <= 0.05 || totalGrams <= 0.05) {
-    return { practicalMeasure: "0", practicalMeasureNote: "Enter an amount above 0" };
+    return { measure: "0", measureNote: "Enter an amount above 0" };
   }
 
   const mlPerCup = UNITS.cups.toBase;

@@ -48,17 +48,17 @@ class NotificationManager {
 
 const notificationTemplate = `<div class="notification-item">
     <p class="notification-message"></p>
-    <button type="button" class="close-notification">&times;</button>
+    <button type="button" class="close-notification" aria-label="Close notification">&times;</button>
   </div>`;
 
 function notificationColor(type) {
   switch (type) {
     case "success":
-      return ["#4ec956", "#232523"];
+      return ["#5a7a51", "#fff"];
     case "error":
-      return ["#d1452c", "#fff"];
+      return ["#b8532f", "#fff"];
     case "warning":
-      return ["#f1c70a", "#000"];
+      return ["#e67e22", "#fff"];
     default:
       return ["#303030", "#fff"];
   }

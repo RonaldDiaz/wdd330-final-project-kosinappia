@@ -10,6 +10,7 @@ export default defineConfig({
         main: resolve(__dirname, "src/index.html"),
         cookbook: resolve(__dirname, "src/cookbook/index.html"),
         request: resolve(__dirname, "src/request/index.html"),
+        thankyou: resolve(__dirname, "src/thankyou/index.html"),
       },
     },
   },

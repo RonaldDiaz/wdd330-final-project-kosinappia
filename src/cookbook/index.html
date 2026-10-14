@@ -1,38 +1,106 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kosinappia | Kitchen Units Converter</title>
-    <meta name="author" content="Ronald Diaz Zerpa" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kosinappia | Saved conversions</title>
+    <meta name="author" content="Ronald Diaz Zerpa">
     <meta
       name="description"
-      content="Convert between volumetric measures, like cups or spoons, and mass units like grams or ounces. Discover the nutritional values of your ingredients."
-    />
-    <script type="module" src="/js/main.js"></script>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="icon" href="/images/kosinappia-icon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      content="View, manage, copy, and export your saved kitchen ingredient conversions and USDA-verified density metrics."
+    >
+    <script type="module" src="/js/cookbook.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/images/kosinappia-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
       rel="stylesheet"
-    />
-    <meta property="og:title" content="Kosinappia | Kitchen Units Converter" />
+    >
+    <meta property="og:title" content="Kosinappia | Saved conversions">
     <meta
       property="og:description"
-      content="Convert between volumetric measures, like cups or spoons, and mass units like grams or ounces. Discover the nutritional values of your ingredients."
-    />
-    <!-- <meta property="og:url" content=""> 
-    <meta property="og:image" content=""> -->
+      content="View, manage, copy, and export your saved kitchen ingredient conversions and USDA-verified density metrics."
+    >
+    <meta
+      property="og:url"
+      content="https://wdd330-final-project-kosinappia.onrender.com/cookbook/"
+    >
+    <meta
+      property="og:image"
+      content="https://wdd330-final-project-kosinappia.onrender.com/images/og-cookbook.webp"
+    >
   </head>
 
   <body>
     <header id="header" class="site-header"></header>
-    <main class="main-content" id="main-content">Cookbook Page</main>
-
-    <!-- Site Footer -->
-
+    <main>
+      <div class="main-content" id="main-content">
+        <section class="section-header">
+          <h1 class="section-title">Saved Cookbook Conversions</h1>
+          <p class="section-subtitle">
+            Review your previous conversions, check USDA density metrics and
+            calculated calories, and load items back into the converter to
+            modify them.
+          </p>
+        </section>
+        <div class="cookbook-layout">
+          <div class="cookbook-main-list" id="cookbookMainList"></div>
+          <aside class="cookbook-sidebar" aria-labelledby="sidebar-heading">
+            <h2 class="cookbook-sidebar-title" id="sidebar-heading">
+              Cookbook Summary
+            </h2>
+            <div class="stat-row">
+              <span class="stat-row-label">Total Saved</span>
+              <span class="stat-row-value" id="statTotalSaved">0</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-row-label">Last Updated</span>
+              <span class="stat-row-value" id="statLastUpdated">—</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-row-label">Total Weight</span>
+              <span class="stat-row-value" id="statTotalGrams">0 g</span>
+            </div>
+            <div class="stat-row">
+              <span class="stat-row-label">Total Calories</span>
+              <span class="stat-row-value" id="statTotalCalories">0 kcal</span>
+            </div>
+            <div class="sidebar-actions">
+              <button
+                type="button"
+                id="exportJsonBtn"
+                class="btn btn-secondary"
+              >
+                <img
+                  src="/images/download.svg"
+                  alt="Download icon"
+                  width="14"
+                  height="14"
+                >Export JSON
+              </button>
+              <button type="button" id="printCardBtn" class="btn btn-secondary">
+                <img
+                  src="/images/print.svg"
+                  alt="Print icon"
+                  width="14"
+                  height="14"
+                >Print cookbook Card
+              </button>
+              <button type="button" id="clearAllBtn" class="btn btn-danger">
+                <img
+                  src="/images/delete.svg"
+                  alt="Delete icon"
+                  width="14"
+                  height="14"
+                >Clear All Items
+              </button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
     <footer id="footer" class="site-footer"></footer>
   </body>
 </html>

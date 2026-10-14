@@ -3,9 +3,33 @@ import Converter from "./Converter.mjs";
 
 loadHeaderFooter();
 
-const idList = ["ingredientSearchInput", "searchClearBtn", "activeIngredientName", "ingredientSelect", "ingredientDescription", "fromUnit", "toUnit", "swapUnits", "amount", "resultNumber", "resultUnit", "practicalMeasureValue", "practicalMeasureNote", "formula", "calories", "carbs", "protein", "fat", "recipesGrid"];
+const idList = [
+  "ingredientSearchInput",
+  "searchClearBtn",
+  "activeIngredientName",
+  "ingredientSelect",
+  "ingredientDescription",
+  "fromUnit",
+  "toUnit",
+  "swapUnits",
+  "amount",
+  "resultNumber",
+  "resultUnit",
+  "practicalMeasureValue",
+  "practicalMeasureNote",
+  "formula",
+  "saveToCookbook",
+  "copyResultBtn",
+  "calories",
+  "carbs",
+  "protein",
+  "fat",
+  "recipesGrid",
+];
 
-const elements = Object.fromEntries(idList.map(id => [id, document.getElementById(id)]))
+const elements = Object.fromEntries(
+  idList.map((id) => [id, document.getElementById(id)])
+);
 elements.filterBtns = document.querySelectorAll(".filter-btn");
 elements.presetBtns = document.querySelectorAll(".preset-btn");
 

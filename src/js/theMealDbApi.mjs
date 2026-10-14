@@ -8,11 +8,16 @@ export async function getRecipesByIngredient(ingredient) {
     if (!response.ok) {
       throw new Error(`Error obtaining the recipes: ${response.status}`);
     }
-
     const recipeData = await response.json();
     return recipeData;    
   } catch (error) {
-    console.error("Error fetching meals:", error);
+    if (!navigator.onLine) {
+      throw new Error("No internet connection.");
+    }
+    if (error.message === "Failed to fetch") {
+      throw new Error("There was a problem reaching theMealDB server.");
+    }
+    throw error;
   }
 }
 
@@ -22,14 +27,16 @@ export async function getRecipeDetailsById(idMeal) {
     if (!response.ok) {
       throw new Error(`Error obtaining the details: ${response.status}`);
     }
-
     const data = await response.json();
-
     if (!data.meals) return null;
-
     return data;
   } catch (error) {
-    console.error(`Error obtaining the details ${idMeal}:`, error);
-    return null;
+    if (!navigator.onLine) {
+      throw new Error("No internet connection.");
+    }
+    if (error.message === "Failed to fetch") {
+      throw new Error("There was a problem reaching theMealDB server.");
+    }
+    throw error;
   }
 }

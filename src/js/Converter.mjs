@@ -2,9 +2,10 @@ import { COMMON_INGREDIENTS, defaultIngredient } from "./data/data.mjs";
 import { getIngredientDetails } from "./usdaApi.mjs";
 import { getRecipesByIngredient, getRecipeDetailsById } from "./theMealDbApi.mjs";
 import { parseFoodData, parseRecipes, parseRecipeDetails } from "./adapters.mjs";
-import { renderWithTemplate, renderListWithTemplate, openRecipeModal } from "./ui.mjs";
+import { renderWithTemplate, renderListWithTemplate, openModal } from "./ui.mjs";
 import { convertAmount } from "./unitConversion.mjs";
 import { notificationManager } from "./NotificationManager";
+import { saveCookbookItem } from "./storage.mjs";
 
 export default class Converter {
   constructor(elements) {
@@ -15,6 +16,7 @@ export default class Converter {
     this.currentAmount = 1;
     this.currentFromUnit = "cups";
     this.currentToUnit = "grams";
+    this.currentResult = null;
   }
 
   init() {
@@ -24,6 +26,7 @@ export default class Converter {
     this.renderIngredient();
     this.renderResults();
     this.bindListeners();
+    this.parseUrlParams();
     this.renderRecipes();
   }
 
@@ -59,18 +62,20 @@ export default class Converter {
 		// Ingredient selection change
     this.ingredientSelect.addEventListener("change", async () => {
       const selectedFdcId = this.ingredientSelect.value;
-      this.activeIngredientName.textContent = "Loading...";
+      this.activeIngredientName.innerHTML = loadingTemplate;
       this.ingredientDescription.textContent = "Waiting for data."
       try {
         const ingredientData = await getIngredientDetails(selectedFdcId);
         this.currentIngredient = parseFoodData(ingredientData);
+        this.currentIngredient.commonName = this.ingredientSelect.options[this.ingredientSelect.selectedIndex].text;
+        this.renderIngredient();
+        this.renderResults();
+        this.renderRecipes();
       } catch (err) {
         notificationManager.show(`There was a problem loading ingredients: ${err.message}`, "error");
+        this.activeIngredientName.textContent = "Error loading the Ingredient";
+        this.ingredientDescription.textContent = "Could not load the data."
       }      
-      this.currentIngredient.commonName = this.ingredientSelect.options[this.ingredientSelect.selectedIndex].text;
-      this.renderIngredient();
-      this.renderResults();
-      this.renderRecipes();
     });
 
 		// Amount change
@@ -142,6 +147,43 @@ export default class Converter {
         this.ingredientSelect.dispatchEvent(new Event("change"));        
       })
     })
+
+    // Save conversion
+    this.saveToCookbook.addEventListener("click", () => {
+      if (!this.currentResult) return;
+
+      saveCookbookItem({
+        fdcId: this.currentIngredient.fdcId,
+        name: this.currentIngredient.commonName,
+        category: this.currentIngredient.category,
+        density: this.currentIngredient.density,
+        gramsPerCup: this.currentIngredient.gramsPerCup,
+        amount: this.currentAmount,
+        fromUnit: this.currentFromUnit,
+        toUnit: this.currentToUnit,
+        resultValue: this.currentResult.result,
+        resultUnit: this.currentResult.unit,
+        practicalMeasure: this.currentResult.measure,
+        grams: this.currentResult.grams,
+        calories: this.currentResult.calories,
+        carbs: this.currentResult.carbs,
+        protein: this.currentResult.protein,
+        fat: this.currentResult.fat
+      });
+
+      notificationManager.show(`Saved "${this.currentAmount} ${this.currentFromUnit} of ${this.currentIngredient.commonName}" to Cookbook!`, "success")
+    });
+
+    // Copy values to clipboard
+    this.copyResultBtn.addEventListener("click", async () => {
+      const copyText = `${this.currentAmount} ${this.currentFromUnit} of ${this.currentIngredient.commonName} = ${this.currentResult.result} ${this.currentResult.unit} (${this.currentResult.measure})`;
+      try {
+        await navigator.clipboard.writeText(copyText);
+        notificationManager.show("Conversion copied to clipboard!", "success")
+      } catch (err) {
+        notificationManager.show(`An error has ocurred: ${err.message}`, "error");
+      }
+    });
   }
 
   renderIngredient() {
@@ -150,49 +192,79 @@ export default class Converter {
   }
   
   renderResults() {
-    const result = convertAmount(this.currentAmount, this.currentFromUnit, this.currentToUnit, this.currentIngredient)
-    this.resultNumber.textContent = result.result;
-    this.resultUnit.textContent = result.unit;
-    this.practicalMeasureValue.textContent = result.measure;
-    this.practicalMeasureNote.textContent = result.note;
-    this.formula.textContent = result.formula;
-    this.calories.textContent = result.calories;
-    this.carbs.textContent = result.carbs;
-    this.protein.textContent = result.protein;
-    this.fat.textContent = result.fat;
+    this.currentResult = convertAmount(this.currentAmount, this.currentFromUnit, this.currentToUnit, this.currentIngredient)
+    this.resultNumber.textContent = this.currentResult.result;
+    this.resultUnit.textContent = this.currentResult.unit;
+    this.practicalMeasureValue.textContent = this.currentResult.measure;
+    this.practicalMeasureNote.textContent = this.currentResult.note;
+    this.formula.textContent = this.currentResult.formula;
+    this.calories.textContent = this.currentResult.calories;
+    this.carbs.textContent = this.currentResult.carbs;
+    this.protein.textContent = this.currentResult.protein;
+    this.fat.textContent = this.currentResult.fat;
   }
   
   async renderRecipes() {
     this.recipesGrid.textContent = "Loading recipes...";
-    const recipeData = await getRecipesByIngredient(this.currentIngredient.commonName);
-    if (!recipeData.meals || recipeData.meals.length === 0) {
-      const emptyState = emptyRecipeTemplate(this.currentIngredient.commonName);
-      renderWithTemplate(emptyState, this.recipesGrid);
-      return;
-    }
-    const randomRecipes = parseRecipes(recipeData, 6);
-    this.recipesGrid.textContent = "";
+    try {
+      const recipeData = await getRecipesByIngredient(this.currentIngredient.commonName);
+      if (!recipeData.meals || recipeData.meals.length === 0) {
+        const emptyState = emptyRecipeTemplate(this.currentIngredient.commonName);
+        renderWithTemplate(emptyState, this.recipesGrid);
+        return;
+      }
+      const randomRecipes = parseRecipes(recipeData, 6);
+      this.recipesGrid.textContent = "";
 
-    randomRecipes.forEach(recipe => {
-      const card = document.createElement("article");
-      card.className = "recipe-card";
-      card.innerHTML = `
-        <div class="recipe-thumbnail-wrap">
-          <img class="recipe-thumbnail" src="${recipe.image}" alt="${recipe.title}" loading="lazy">
-        </div>
-        <div class="recipe-content">
-          <h3 class="recipe-title">${recipe.title}</h3>
-          <button type="button" class="btn btn-secondary recipe-btn" data-id="${recipe.id}">View Recipe</button>
-        </div>
-      `;
-      const viewBtn = card.querySelector(".recipe-btn");
-      viewBtn.addEventListener("click", async (event) => {
-        const recipeDetails = await getRecipeDetailsById(event.target.dataset.id);
-        const parsedRecipeDetails = parseRecipeDetails(recipeDetails);
-        openRecipeModal(parsedRecipeDetails);
+      randomRecipes.forEach(recipe => {
+        const card = document.createElement("article");
+        card.className = "recipe-card";
+        card.innerHTML = `
+          <div class="recipe-thumbnail-wrap">
+            <img class="recipe-thumbnail" src="${recipe.image}" alt="${recipe.title}" loading="lazy">
+          </div>
+          <div class="recipe-content">
+            <h3 class="recipe-title">${recipe.title}</h3>
+            <button type="button" class="btn btn-secondary recipe-btn" data-id="${recipe.id}">View Recipe</button>
+          </div>
+        `;
+        const viewBtn = card.querySelector(".recipe-btn");
+        viewBtn.addEventListener("click", async (event) => {
+          try {
+            const recipeDetails = await getRecipeDetailsById(event.target.dataset.id);
+            const parsedRecipeDetails = parseRecipeDetails(recipeDetails);
+            openModal(recipeDialogTemplate(parsedRecipeDetails));
+          } catch (err) {
+            notificationManager.show(`There was a problem loading the recipe details: ${err.message}`, "error")
+          }
+        });
+        this.recipesGrid.appendChild(card);
       });
-      this.recipesGrid.appendChild(card);
-    });
+    } catch (err){
+      notificationManager.show(`There was a problem loading recipes: ${err.message}`, "error")
+    }    
+  }
+
+  parseUrlParams() {
+    const params = new URLSearchParams(window.location.search);
+    const ingredientId = params.get("ingredient");
+    const amount = params.get("amount");
+    const from = params.get("from");
+    const to = params.get("to");
+
+    if (!ingredientId || !amount || !from || !to) return;
+
+    const val = parseFloat(amount);
+    if (!isNaN(val) && val > 0) this.currentAmount = val;
+  
+    this.currentFromUnit = from;
+    this.currentToUnit = to;
+
+    this.amount.value = this.currentAmount;
+    this.fromUnit.value = this.currentFromUnit;
+    this.toUnit.value = this.currentToUnit;
+    this.ingredientSelect.value = ingredientId;
+    this.ingredientSelect.dispatchEvent(new Event("change")); 
   }
 }
 
@@ -220,7 +292,7 @@ function optgroupTemplate(category, ingredients, currentIngredient) {
 }
 
 const emptyIngredientOptionTemplate = `
-  <option value "" disabled selected>No ingredients match search</option>
+  <option value="" disabled selected>No ingredients match search</option>
 `
 
 const unitsTemplate = `
@@ -242,12 +314,46 @@ const unitsTemplate = `
 
 function emptyRecipeTemplate(ingredientName) {
   return `
-    <div class="recipe-empty-state">
-      <div class="empty-state-icon">🍽️</div>
-      <h3 class="empty-state-title">No recipes found 😔</h3>
-      <p class="empty-state-message">
-        We couldn't find any suggested recipes with your selected ingredient, <strong>"${ingredientName}"</strong> right now. Try selecting another ingredient!
-      </p>
+    <div class="empty-state">
+      <img src="/images/empty_egg.webp" alt="A cracked empty egg" width="200" height="200">
+      <h3>No recipes found</h3>
+      <p>We couldn't find any suggested recipes with your selected ingredient, <strong>"${ingredientName}"</strong> right now. Try selecting another ingredient!</p>
     </div>
   `;
 }
+
+function recipeDialogTemplate(recipeDetails) {
+  return `
+    <div class="modal-inner">
+      <div class="modal-header">
+        <div>
+          <span>${(recipeDetails.category)}</span>
+          <h2 class="modal-title">${recipeDetails.title}</h2>
+        </div>
+        <button type="button" class="modal-close-btn" id="modalClose" aria-label="Close modal">✕</button>
+      </div>      
+      <div class="modal-body">
+        <div>
+          <img src="${recipeDetails.image}" alt="${recipeDetails.title}">
+        </div>
+        <p>${recipeDetails.country}</p>
+        <h3>Ingredients</h3>
+        <ul>${recipeDetails.ingredients.map(item => `<li>${item.measure} ${item.ingredient}</li>`).join("")}</ul>
+        <h3>Recipe's Instructions</h3>
+        <p>${recipeDetails.instructions}</p>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="modalDismiss">Close Recipe</button>
+      </div>
+    </div>
+  `;
+}
+
+const loadingTemplate = `
+  Loading
+  <span class="loading-dots" aria-hidden="true">
+    <span></span>
+    <span></span>
+    <span></span>
+  </span>
+`;

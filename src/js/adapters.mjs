@@ -23,7 +23,7 @@ export function parseFoodData(food) {
   return {
     fdcId: food.fdcId,
     name: food.description,
-    gramsPerCup: weight,
+    gramsPerCup: Number((weight).toFixed(2)),
     density: Number((density).toFixed(2)),
     category: food.foodCategory.description,
     nutrients
@@ -36,7 +36,7 @@ function findNutrientValue(nutrientsList, names) {
     names.some(name => n.nutrient.name.toLowerCase().includes(name.toLowerCase()))
   );
 
-  return val ? Math.round(val.amount || val.value || 0) : 0;
+  return val ? Number((val.amount || val.value || 0)).toFixed(2) : 0;
 }
 
 // Finds the weight value of a portion in the food data, and calculates the density
@@ -46,14 +46,14 @@ function findWeightAndDensity(foodData) {
 
   const portions = foodData.foodPortions || [];
 
-  const priorityUnits = ["cups", "tbsp", "tsp", "fl_oz", "oz"];
+  const priorityUnits = ["cups", "tbsp", "tsp", "fl_oz"];
 
   for (const unitId of priorityUnits) {
     const unit = UNITS[unitId];
     const foundPortion = portions.find(portion => portion.modifier.includes(unit.shortName))
     if (foundPortion?.gramWeight) {
-      weight = foundPortion.gramWeight;
-      density = weight / unit.toBase;
+      density = foundPortion.gramWeight / unit.toBase;
+      weight = density * UNITS.cups.toBase;
       return { weight, density };
     }
   }

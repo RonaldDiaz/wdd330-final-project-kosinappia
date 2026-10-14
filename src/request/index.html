@@ -1,38 +1,175 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kosinappia | Kitchen Units Converter</title>
-    <meta name="author" content="Ronald Diaz Zerpa" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kosinappia | Custom Ingredient Request</title>
+    <meta name="author" content="Ronald Diaz Zerpa">
     <meta
       name="description"
-      content="Convert between volumetric measures, like cups or spoons, and mass units like grams or ounces. Discover the nutritional values of your ingredients."
-    />
-    <script type="module" src="/js/main.js"></script>
-    <link rel="stylesheet" href="/css/style.css" />
-    <link rel="icon" href="/images/kosinappia-icon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      content="Submit custom ingredients for density testing and explore technical FAQ explanations on kitchen mass, volume, and density physics."
+    >
+    <script type="module" src="/js/request.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/images/kosinappia-icon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap"
       rel="stylesheet"
-    />
-    <meta property="og:title" content="Kosinappia | Kitchen Units Converter" />
+    >
+    <meta property="og:title" content="Kosinappia | Custom Ingredient Request">
     <meta
       property="og:description"
-      content="Convert between volumetric measures, like cups or spoons, and mass units like grams or ounces. Discover the nutritional values of your ingredients."
-    />
-    <!-- <meta property="og:url" content=""> 
-    <meta property="og:image" content=""> -->
+      content="Submit custom ingredients for density testing and explore technical FAQ explanations on kitchen mass, volume, and density physics."
+    >
+    <meta
+      property="og:url"
+      content="https://wdd330-final-project-kosinappia.onrender.com/request/"
+    >
+    <meta
+      property="og:image"
+      content="https://wdd330-final-project-kosinappia.onrender.com/images/og-request.webp"
+    >
   </head>
 
   <body>
     <header id="header" class="site-header"></header>
-    <main class="main-content" id="main-content">Requests Page</main>
-
-    <!-- Site Footer -->
-
+    <main class="main-content" id="main-content">
+      <section class="section-header">
+        <h1 class="section-title">Custom Ingredient Request and FAQs</h1>
+        <p class="section-subtitle">
+          Can't find your ingredient? Submit a request for addition, or review
+          our density calculation FAQ.
+        </p>
+      </section>
+      <div class="request-grid">
+        <section class="request-form-card">
+          <!-- Form -->
+          <h2 id="form-heading">Request New Ingredient</h2>
+          <form id="ingredientRequestForm" method="GET" action="/thankyou/">
+            <input type="hidden" id="timestamp" name="timestamp" value="">
+            <div class="form-grid-row">
+              <div class="form-group">
+                <label for="firstName" class="form-request-label"
+                  >First Name <span aria-hidden="true">*</span></label
+                >
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  class="form-input"
+                  placeholder="e.g. Ronald"
+                  required
+                  autocomplete="given-name"
+                >
+              </div>
+              <div class="form-group">
+                <label for="lastName" class="form-request-label"
+                  >Last Name <span aria-hidden="true">*</span></label
+                >
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  class="form-input"
+                  placeholder="e.g. Diaz"
+                  required
+                  autocomplete="family-name"
+                >
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email" class="form-request-label"
+                >Email Address <span aria-hidden="true">*</span></label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="form-input"
+                placeholder="e.g. baker@kitchen.org"
+                required
+                autocomplete="email"
+              >
+            </div>
+            <div class="form-group">
+              <label for="ingredientName" class="form-request-label"
+                >Ingredient Name<span aria-hidden="true">*</span></label
+              >
+              <input
+                type="text"
+                id="ingredientName"
+                name="ingredientName"
+                class="form-input"
+                placeholder="e.g. Golden Syrup"
+                required
+              >
+            </div>
+            <div class="form-group">
+              <label for="category" class="form-request-label"
+                >Ingredient Category <span aria-hidden="true">*</span></label
+              >
+              <select
+                id="category"
+                name="category"
+                class="form-select"
+                required
+              >
+                <option value="" disabled selected>
+                  Choose a food category...
+                </option>
+                <option value="Cereal Grains and Pasta">
+                  Cereal Grains and Pasta
+                </option>
+                <option value="Sweets">Sweets</option>
+                <option value="Dairy and Egg Products">
+                  Dairy and Egg Products
+                </option>
+                <option value="Fats and Oils">Fats and Oils</option>
+                <option value="Nut and Seed Products">
+                  Nut and Seed Products
+                </option>
+                <option value="Baked Products">Baked Products</option>
+                <option value="Vegetables and Vegetable Products">
+                  Vegetables and Vegetable Products
+                </option>
+                <option value="Fruits and Fruit Juices">
+                  Fruits and Fruit Juices
+                </option>
+                <option value="Spices and Herbs">Spices and Herbs</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="notes" class="form-request-label"
+                >Additional Notes &amp; Preparation Details</label
+              >
+              <textarea
+                id="notes"
+                name="notes"
+                class="form-textarea"
+                placeholder="Specify whether the measure is sifted, coarse-ground, room temperature, melted, or firm-packed..."
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">
+              <img
+                src="/images/upload.svg"
+                alt="Upload icon"
+                width="14"
+                height="14"
+              >Submit Ingredient to Include
+            </button>
+          </form>
+        </section>
+        <!-- Facts and FAQs -->
+        <section id="faq-section" aria-labelledby="faqHeading">
+          <div class="section-header">
+            <h2 class="section-title" id="faqHeading">Facts and FAQs</h2>
+          </div>
+          <div class="faq-list" id="faqContainer"></div>
+        </section>
+      </div>
+    </main>
     <footer id="footer" class="site-footer"></footer>
   </body>
 </html>

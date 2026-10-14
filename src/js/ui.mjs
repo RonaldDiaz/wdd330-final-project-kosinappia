@@ -60,39 +60,16 @@ export function setDates() {
     document.getElementById("lastModified").innerHTML = document.lastModified;
 }
 
-export function openRecipeModal(recipeDetails) {
+export function openModal(dialogTemplate) {
   let dialog = document.createElement("dialog");
-  dialog.id = "recipe-detail-dialog";
-  dialog.className = "recipe-modal";
+  dialog.id = "modalDialog";
+  dialog.className = "modal-dialog";
   document.body.appendChild(dialog);
 
-  dialog.innerHTML = `
-    <div class="modal-inner">
-      <div class="modal-header">
-        <div>
-          <span>${(recipeDetails.category)}</span>
-          <h2 class="modal-title">${recipeDetails.title}</h2>
-        </div>
-        <button type="button" class="modal-close-btn" id="modal-close-action">✕</button>
-      </div>      
-      <div class="modal-body">
-        <div>
-          <img src="${recipeDetails.image}" alt="${recipeDetails.title}">
-        </div>
-        <p>${recipeDetails.country}</p>
-        <h3>Ingredients</h3>
-        <ul>${recipeDetails.ingredients.map(item => `<li>${item.measure} ${item.ingredient}</li>`).join("")}</ul>
-        <h3>Recipe's Instructions</h3>
-        <ol>${recipeDetails.instructions}</ol>       
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="modal-dismiss-btn">Close Recipe</button>
-      </div>
-    </div>
-  `;
+  dialog.innerHTML = dialogTemplate;
 
-  const closeBtn = dialog.querySelector("#modal-close-action");
-  const dismissBtn = dialog.querySelector("#modal-dismiss-btn");
+  const closeBtn = dialog.querySelector("#modalClose");
+  const dismissBtn = dialog.querySelector("#modalDismiss");
   const close = () => dialog.close();
 
   closeBtn.addEventListener("click", close);
@@ -103,6 +80,10 @@ export function openRecipeModal(recipeDetails) {
       dialog.close();
     }
   });
+
+  dialog.addEventListener("close", () => {
+    dialog.remove();
+  }, { once: true });
 
   dialog.showModal();
 }

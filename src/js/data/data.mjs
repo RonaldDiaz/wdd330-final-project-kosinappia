@@ -1,14 +1,3 @@
-export const INGREDIENTS = [
-  { name: "Granulated Sugar", category:"", fdcId: 169655 },
-  { name: "White Rice, Cooked", category:"", fdcId: 168932 },
-  { name: "Butter, Salted", category:"", fdcId: 173410 },
-  { name: "Olive Oil", category:"", fdcId: 171413 },
-  { name: "Whole Milk", category:"", fdcId: 171265 },
-  { name: "Rolled Oats", category:"", fdcId: 173904 },
-  { name: "Honey", category:"", fdcId: 169640 },
-  { name: "White Rice, Uncooked", category:"", fdcId: 169756 }
-];
-
 export const COMMON_INGREDIENTS = [
   { name: "Granulated sugar", category: "Sweets", fdcId: 169655},
   { name: "All purpose flour", category: "Baked Products", fdcId: 168936},
@@ -125,4 +114,65 @@ export const defaultIngredient = {
     "fat": 0,
     "carbs": 100
   }
-};
+}
+
+export const FAQ_DATA = [
+  {
+    id: "faq-flour-density",
+    title: "Why does 1 cup of flour never equal 240 grams?",
+    snippet: "Water weighs exactly 240g per cup (density 1.00 g/ml), but flour is a compressible powder with substantial air pocket volume.",
+    modalTitle: "The Physics of Flour Density",
+    contentHtml: `
+      <p>A standard US cup measure holds <strong>236.59 milliliters</strong> of volume. Because water has a density of 1.00 g/ml, 1 cup of water weighs 236.6 grams, and is commonly rounded to 240g in kitchen shorthand.</p>
+      <section class="formula-box">
+        Mass = Volume × Bulk Density<br>
+        Flour: 236.59 ml × 0.507 g/ml = 120.0 grams
+      </section>
+      <p>Wheat flour is composed of irregularly shaped starch granules and protein fibrils. When stored in a canister, it settles. If you scoop directly from the bag using a measuring cup ("dip and sweep"), you compress the powder, packing anywhere from <strong>140g to 160g</strong> into the cup. That accidental 30% surplus of dry solids can ruin cakes and breads.</p>
+      <p>Kosinappia utilizes the USDA and King Arthur Baking standard for all purpose flour: <strong>120 grams per cup</strong>, spooned gently into the cup and leveled with a straight blade.</p>
+    `
+  },
+  {
+    id: "faq-usda-density",
+    title: "How is density (g/ml) determined using USDA standards?",
+    snippet: "Bulk density is calculated by dividing mass in grams by container volume in milliliters under regulated 20°C room temperature.",
+    modalTitle: "USDA FoodData Central Density System",
+    contentHtml: `
+      <p>The USDA FoodData Central system catalogs food products by both weight (grams) and volumetric household measures (cups, tablespoons, milliliters).</p>
+      <section class="formula-box">
+        Density (ρ) = m / V<br>
+        Where m = mass in grams, V = true displaced volume in milliliters
+      </section>
+      <p>For liquids (like honey at 1.42 g/ml or olive oil at 0.915 g/ml), density is measured using calibrated hydrometers and pycnometers at standard ambient temperature (20°C / 68°F).</p>
+      <p>For particulate dry foods, such as sugars, grains, and starches, the bulk tapped density is determined by standardized ASTM methods, accounting for typical household dispensing variance.</p>
+    `
+  },
+  {
+    id: "faq-volume-vs-weight",
+    title: "Volume vs. Weight: Why professional bakers prefer grams?",
+    snippet: "Volumetric cups carry up to a 25% human error margin. Kitchen scales measuring in grams guarantee mathematical reproducibility.",
+    modalTitle: "The Baker's Percentage and Precision Weight Scale",
+    contentHtml: `
+      <p>In commercial baking and French patisserie, recipes are never formulated in cups or spoons. They are engineered around <strong>Baker's Percentages</strong>, where every ingredient is weighed in grams relative to the total flour weight (flour = 100%).</p>
+      <section class="formula-box">
+        Baker's Hydration (%) = (Weight of Water ÷ Weight of Flour) × 100<br>
+        Example: (375g Water ÷ 500g Flour) × 100 = 75% Hydration
+      </section>
+      <p>A variation of just 15 grams of flour can shift dough hydration from an open, airy crumb (75%) to a stiff, dense loaf (70%). Weighing with a digital kitchen scale eliminates cup-shape variances and spooning technique errors.</p>
+    `
+  },
+  {
+    id: "faq-brown-sugar",
+    title: "Why does packed brown sugar weigh more than white sugar?",
+    snippet: "Molasses coats each sugar crystal, creating surface adhesion that allows brown sugar crystals to pack tightly with fewer voids.",
+    modalTitle: "The Molasses Film",
+    contentHtml: `
+      <p>Granulated white sugar crystals are dry, hard cubes of pure sucrose. Because they do not stick to each other, they tumble freely with natural inter-crystal void spaces, weighing <strong>200g per cup</strong> (density 0.845 g/ml).</p>
+      <section class="formula-box">
+        White Granulated Sugar: 200g / cup (free-flowing)<br>
+        Brown Sugar (firmly packed): 220g / cup (lubricated displacement)
+      </section>
+      <p>Brown sugar contains 3.5% to 6.5% liquid molasses film surrounding the crystals. When compressed into a measuring cup ("packed"), the viscous molasses lubricates the particles, allowing them to deform and displace interstitial air, raising the bulk weight to <strong>220g per cup</strong>.</p>
+    `
+  }
+];
